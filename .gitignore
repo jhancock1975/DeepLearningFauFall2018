@@ -5,3 +5,9 @@
 *.swp
 *.toc
 *.out
+# ignore jupyter checkpoints
+.ipynb_checkpoints/
+# some file that gets generated when
+# we compile acm small ample pdf
+*.cut
+
