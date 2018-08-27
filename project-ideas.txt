@@ -1,0 +1,17 @@
+Modify deep mind learning-to-learn to work with recent tensorflow with GPU support
+
+Use images to learn how to do arithmetic
+
+Use database to store really massive NN
+
+Use hadoop parallel matrix multiplication for training
+
+Code examples from Deep learning book on-line in R
+
+Code deepmind examples in R
+
+Compare performance of using c++ vs. R or Python TF libraries
+
+quantum neural network node
+
+quantum back-end for keras
