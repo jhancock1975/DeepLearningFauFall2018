@@ -17,3 +17,4 @@ quantum neural network node
 
 quantum back-end for keras
 
+neural networks based on complex numbers, quaternions, and octonions.
