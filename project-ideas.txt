@@ -1,7 +1,7 @@
 implement learning-to-learn like idea with keras functional API
 Modify deep mind learning-to-learn to work with recent tensorflow with GPU support
 
-Use images to learn how to do arithmetic
+Use images to learn how to do arithmetic, other subjects
 
 Use database to store really massive NN
 
@@ -18,3 +18,7 @@ quantum neural network node
 quantum back-end for keras
 
 neural networks based on complex numbers, quaternions, and octonions.
+
+neural network for counting partitions
+
+neural network relying on shannon entropy
