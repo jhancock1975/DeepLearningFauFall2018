@@ -1,4 +1,5 @@
 .Rhistory
+.RData
 *.swp
 *.aux
 *.log

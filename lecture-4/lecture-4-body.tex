@@ -1,0 +1,61 @@
+\section{Introduction}
+My main take-away from Zhu's lecture so far is on the two weight updating
+Algorithms that he presents in \cite{zhuPerceptron}.
+\section{Main Body}
+The main thing I want to reflect on is the weight updating rules.
+
+Zhu calls the first weight updating algorithm he introduces the, "Perceptron 
+Learning Rule." 
+
+For this rule, we update weights immediately, according to the rule:
+\begin{equation}
+\label{PerceptronLearning}
+\Delta w_i = \eta \left(d\left(n\right) - a\left(n\right)\right)x_i.
+\end{equation}
+
+It is important to note that we add this change in weights to the weights after
+computing the output.
+
+The second weight update algoritm Zhu covers he calls the, "Gradient Descent
+Learning Rule."
+\begin{equation}
+\label{GradDescent}
+\Delta w_i = \eta \left(d\left(n\right) - o\left(n\right)\right)x_i.
+\end{equation}
+
+This algorithm has a weight update calculation that looks much like 
+\ref{PerceptronLearning}, but the $a$ is replaced with an $o$.  Perhaps, for
+some reason, Zhu wants to stress the difference between output value and
+actual value.  Otherwise, there is no difference in how we calculate the weight
+update.  However, we use the value $\Delta w_i$ differently.
+
+In the Perceptron learning rule, we update weights immediately, however, in
+the Gradient Descent Learning Rule, we update weights after a round of training.
+We accumulate the sum of the $\Delta w_i$, and add that to the weights after
+the end of training.
+
+So, even for one neuron, the weight updating is taking into account the 
+Perceptron's output for all inputs in the training set before it makes an
+adjustment.
+
+This is clear in the way he fills out the table in slide 21 versus slide 44,
+where we can see in slide 21 that Zhu changes the weight values immediately
+after calculating $\Delta w_i$, whereas in slide 44 he changes the weight
+values only after summing $\Delta w_i$ for all of the output values.
+\section{Conclusions}
+
+Conclusion goes here
+
+
+% Start of "Sample References" section
+
+\section{References}
+
+\begin{acks}
+The author would like to thank the staff of the Computer Science Department
+of Florida Atlantic University for their priceless guidance over the years.
+\end{acks}
+
+% Bibliography
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-bibliography}

@@ -1,0 +1,15 @@
+> network <- keras_model_sequential()  %>% layer_dense(units=600,activation="relu", input_shape=c(28*28))  %>% layer_dense(units=10,  activation="softmax")
+> network %>% compile ( optimizer="rmsprop", loss="categorical_crossentropy", metrics=c("accuracy"))
+> network %>% fit(train_images, train_labels, epochs = 5, batch_size = 128)
+Epoch 1/5
+2018-09-03 21:04:26.424851: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+60000/60000 [==============================] - 6s 95us/step - loss: 0.2498 - acc: 0.9267
+Epoch 2/5
+60000/60000 [==============================] - 5s 90us/step - loss: 0.0998 - acc: 0.9704
+Epoch 3/5
+60000/60000 [==============================] - 5s 89us/step - loss: 0.0644 - acc: 0.9811
+Epoch 4/5
+60000/60000 [==============================] - 41s 677us/step - loss: 0.0463 - acc: 0.9859
+Epoch 5/5
+60000/60000 [==============================] - 5s 90us/step - loss: 0.0347 - acc: 0.9897
+>

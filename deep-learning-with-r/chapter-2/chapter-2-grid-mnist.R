@@ -10,28 +10,8 @@ num_networks = 2
 num_units_list=c(512,600)
 
 activation_func_list=c("relu","softmax", "elu", "selu", "softplus", "softsign",
-  "tanh", "sigmoid", "hard_sigmoid", "linear")
+"tanh", "sigmoid", "hard_sigmoid", "linear")
 
-create_networks <- function(){ 
-  networks <- vector("list", num_networks)
-  for (num_units in num_units_list){
-   for (activ_func in activation_func_list){ 
-    network <- keras_model_sequential() %>%
-
-     layer_dense(units = num_units, activation = activ_func, 
-       input_shape = c(28 * 28)) %>%
-
-     layer_dense(units = 10, activation = "softmax")
-   
-   network %>% compile(
-     optimizer = "rmsprop",
-     loss = "categorical_crossentropy",
-     metrics = c("accuracy")
-     )   
-    }
-  }
-  return(networks)
-}
 
 mnist <- dataset_mnist()
 train_images <- mnist$train$x
@@ -50,12 +30,34 @@ test_images <- test_images / 255
 train_labels <- to_categorical(train_labels)
 test_labels <- to_categorical(test_labels)
 
+create_networks <- function(){
+
+  networks <- vector("list", 1)
+  i = 1
+  for (activ_func in activation_func_list){
+    network <- keras_model_sequential() %>% 
+   
+    layer_dense(units = 512, activation = activ_func, 
+      input_shape = c(28 * 28)) %>% 
+  
+    layer_dense(units = 10, activation = "softmax")
+    
+    network %>% compile(
+      optimizer = "rmsprop",
+      loss = "categorical_crossentropy",
+      metrics = c("accuracy")
+      )
+  
+  networks[[i]] <- network
+  i <- i + 1
+  }
+  return(networks)
+}
+
 networks <- create_networks()
 
 for (network in networks){
   network %>% fit(train_images, train_labels, epochs = 5, batch_size = 128)
   metrics <- network %>% evaluate(test_images, test_labels)
-  metrics
+  print(metrics)
 }
-
-
