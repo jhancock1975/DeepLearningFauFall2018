@@ -18,3 +18,12 @@
 *.blg
 
 .Rproj.user
+
+# do not check in clear-text files related to hw-1 to abet
+# plagiarisers 
+hw-1.aux
+hw-1.bbl
+hw-1.bib
+hw-1.log
+hw-1.pdf
+hw-1.tex
