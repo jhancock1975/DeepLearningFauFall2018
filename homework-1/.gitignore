@@ -1,2 +1,9 @@
 *.R
 *.tex
+Class1.txt
+Class2.txt
+perceptron.learning.Rmd
+perceptron.learning.nb.html
+question-7-decis-surface.png
+question-7-first-plot.png
+question-7iteration-error-plot.png
