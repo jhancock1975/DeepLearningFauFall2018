@@ -28,4 +28,6 @@ hw-1.log
 hw-1.pdf
 hw-1.tex
 
+# ignore files from face data
 *.pgm
+*.bad
