@@ -1,0 +1,81 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+```{r}
+rm(list=ls())
+
+library(neuralnet)
+```
+
+```{r}
+data(iris)
+#Add a "fake" class to allow for all factors
+levels(iris$Species) <- c(levels(iris$Species),"fake")
+levels
+```
+
+
+```{r}
+loadImages <- function(pathName,fileNames, clasLabel) {
+files<-list.files(path=pathName,pattern=fileNames,all.files=T,full.name=T,no..=T)
+list_of_images=lapply(files,read.pnm)
+plot(list_of_images[[1]])
+n.images<-length(list_of_images)
+image.matrix<-list_of_images[[1]]@grey
+image.vector<-unmatrix(image.matrix,byrow=T)
+for(ii in 2:n.images)
+{
+ i.matrix<-list_of_images[[ii]]@grey
+ i.vector<-unmatrix(i.matrix,byrow=T)
+ image.vector<-rbind(image.vector,i.vector)
+}
+image.frame<-data.frame(image.vector)
+n.rows<-nrow(image.frame)
+class1.label<-rep(clasLabel,n.rows)
+image.frame<-cbind(image.frame,class1.label)
+return (image.frame)
+}
+left.frame <- loadImages("/home/jhancock2010/git/DeepLearningFauFall2018/hw-2/left/","*left*",1)
+right.frame <- loadImages("/home/jhancock2010/git/DeepLearningFauFall2018/hw-2/right/","*right*",-1)
+straight.frame <- loadImages("/home/jhancock2010/git/DeepLearningFauFall2018/hw-2/straight/","*straight*",-1)
+total.frame<-rbind(left.frame,right.frame,straight.frame)
+dim(total.frame)
+
+```
+```{r}
+
+train.index<-sample(nrow(total.frame),nrow(total.frame)*0.6)
+
+training.set<-total.frame[train.index,]
+training.set
+
+test.set<-total.frame[-train.index,]
+test.set
+
+```
+We know that we would have to modify the code below to use data from images above, but were unable to incorporate it in time for the due date.
+```{r}
+#Relevel to make the fake class the factor
+iris$Species <- relevel(iris$Species,ref = "fake")
+#Create dummy variables and remove the intercept
+iris_multinom <- model.matrix(~Species+Sepal.Length+
+                                Petal.Length+Petal.Width,
+                              data=iris)[,-1]
+ 
+colnames(iris_multinom)[1:3] <- c("setosa","versicolor","virginica")
+ 
+ 
+nn_multi <- neuralnet(setosa+versicolor+virginica~
+                 Sepal.Length+Petal.Length+Petal.Width,
+               data=iris_multinom,hidden=5,lifesign = "minimum",
+               stepmax = 1e+05,rep=10)
+res <- compute(nn_multi, iris_multinom[,-c(1:3)])
+```
+```{r}
+nn_multi$result.matrix
+```
