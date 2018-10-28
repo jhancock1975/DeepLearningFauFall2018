@@ -1,0 +1,214 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+R Notebook. Radial Basis Function (RBF). X. Zhu, Sept 27 2018.
+
+```{r}
+library("corpcor")
+
+class1<-read.table("Class1.txt",header=TRUE,sep=",")
+class1.label<-rep(1,100)
+class1<-cbind(class1,class1.label)
+names(class1)<-c("weight","height","label")
+class1
+
+```
+
+```{r}
+class2<-read.table("Class2.txt",header=TRUE,sep=",")
+class2.label<-rep(-1,100)
+class2<-cbind(class2,class2.label)
+names(class2)<-c("weight","height","label")
+class2
+
+```
+
+```{r}
+class1.2<-rbind(class1,class2)
+
+d.set<-data.frame(class1.2)
+names(d.set)<-c("weight","height","label")
+class.index<-dim(d.set)[2] # The index of the class lable (which is the last column).
+class.index
+
+```
+
+```{r}
+
+```
+
+```{r}
+train.index<-sample(nrow(d.set),nrow(d.set)*0.3)
+train.index
+
+training.set<-d.set[train.index,]
+training.set
+training.set.features<-training.set[,-class.index]
+training.set.labels<-training.set[,class.index]
+training.set.labels
+```
+
+```{r}
+
+```
+
+```{r}
+test.set<-d.set[-train.index,]
+test.set
+test.set.features<-test.set[,-class.index]
+test.set.labels<-test.set[,class.index]
+test.set.labels
+```
+
+```{r}
+ll<-matrix(as.numeric(training.set.labels))
+ll
+dim(ll)
+```
+
+
+```{r}
+rbf <- function(X, Y, K=5, gamma=1.0) {
+  N<- dim(X)[1] # number of instances
+  
+  repeat {
+    km <- kmeans(X, K)  # let's cluster K centers out of the dataset
+    if (min(km$size)>0) # only accept if there are no empty clusters
+      break
+  }
+
+  mus <- km$centers # the clusters points
+  
+  Phi <- matrix(rep(NA,(K+1)*N), ncol=K+1)
+  for (lin in 1:N) {
+    Phi[lin,1] <- 1    # bias column
+    for (col in 1:K) {
+      Phi[lin,col+1] <- exp( -gamma * norm(as.matrix(X[lin,]-mus[col,]),"F")^2 )
+    }
+  }
+
+   w <- pseudoinverse(Phi) %*% matrix(as.numeric(Y))  # find RBF weights
+
+
+  list(weights=w, centers=mus, gamma=gamma)  # return the rbf model
+}
+
+# now call rbf function
+
+rbf.model<-rbf(training.set.features,training.set.labels)
+rbf.model
+```
+
+
+```{r}
+rbf.predict <- function(model, X, classification=FALSE) {  
+  gamma   <- model$gamma
+  centers <- model$centers
+  w       <- model$weights
+  N       <- dim(X)[1]    # number of observations
+  
+  pred <- rep(w[1],N)  # we need to init to a value, so let's start with the bias
+
+  for (j in 1:N) {  
+    # find prediction for point xj
+    for (k in 1:length(centers[,1])) {
+      # the weight for center[k] is given by w[k+1] (because w[1] is the bias)
+      pred[j] <- pred[j] + w[k+1] * exp( -gamma * norm(as.matrix(X[j,]-centers[k,]),"F")^2 )
+    }
+  }
+  
+  if (classification) {
+    pred <- unlist(lapply(pred, sign))
+  }
+  return(pred)
+}
+
+predictions<-rbf.predict(rbf.model,test.set.features,TRUE)
+predictions
+
+```
+
+```{r}
+cm<-table(test.set.labels,predictions)
+cm
+acc<-(cm[1][1]+cm[4][1])/sum(cm)
+caption<-sprintf("RBF Accuracy: %.4f",acc)
+caption
+
+```
+
+```{r}
+plot(training.set[,]$weight,training.set[,]$height,xlim=c(0:1),ylim=c(0:1),col=c("blue","black","red")[training.set.labels[]+2])
+points(test.set[,1],test.set[,2],col=c("blue","black","red")[predictions[]+2],pch=3)
+points(test.set[,1],test.set[,2],col=c("blue","black","red")[test.set.labels[]+2],pch=0)
+points(rbf.model$centers, col="black", pch=19) 
+legend("topleft",legend=c("label","prediction"),pch=c(0,3))
+
+title(caption)
+
+```
+
+```{r}
+circle<-read.table("circle.txt",sep=",",header=T)
+circle
+class.index<-dim(circle)[2]
+
+```
+
+```{r}
+train.index<-sample(nrow(circle),nrow(circle)*0.3)
+train.index
+
+training.set<-circle[train.index,]
+training.set
+
+```
+
+```{r}
+training.set.features<-training.set[,-class.index]
+training.set.labels<-training.set[,class.index]
+training.set.labels
+```
+
+```{r}
+test.set<-circle[-train.index,]
+test.set
+
+test.set.features<-test.set[,-class.index]
+test.set.labels<-test.set[,class.index]
+test.set.labels
+```
+```{r}
+rbf.model<-rbf(training.set.features,training.set.labels)
+rbf.model
+```
+
+```{r}
+predictions<-rbf.predict(rbf.model,test.set.features,TRUE)
+predictions
+```
+```{r}
+cm<-table(test.set.labels,predictions)
+cm
+```
+
+```{r}
+acc<-(cm[1][1]+cm[4][1])/sum(cm)
+caption<-sprintf("RBF Accuracy: %.4f",acc)
+caption
+```
+
+```{r}
+plot(training.set[,]$V1,training.set[,]$V2,xlim=c(-1,1),ylim=c(-1,1),col=c("blue","black","red")[training.set.labels[]+2])
+points(test.set[,1],test.set[,2],col=c("blue","black","red")[predictions[]+2],pch=3)
+points(test.set[,1],test.set[,2],col=c("blue","black","red")[test.set.labels[]+2],pch=0)
+points(rbf.model$centers, col="black", pch=19) 
+legend("topleft",legend=c("label","prediction"),pch=c(0,3))
+
+title(caption)
+
+```
+
