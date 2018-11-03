@@ -31,3 +31,5 @@ hw-1.tex
 # ignore files from face data
 *.pgm
 *.bad
+
+lecture-19/
