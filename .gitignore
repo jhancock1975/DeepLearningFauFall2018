@@ -33,3 +33,5 @@ hw-1.tex
 *.bad
 
 lecture-19/
+.idea/
+proposal/
