@@ -9,3 +9,7 @@ structures we need to know for qual exam: 10/24 about 47:26
 study homework solutions for exam
 
 gradient descent, weight updating - study for exam
+
+for exam - no code task but must write cnn strcuture (11/2 lecture 2:39 sec)
+
+ll/2 lecture 3:12 start RNN
