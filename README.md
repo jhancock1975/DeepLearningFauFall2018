@@ -14,10 +14,4 @@ for exam - no code task but must write cnn strcuture (11/2 lecture 2:39 sec)
 
 ll/2 lecture 3:12 start RNN\section{Project Type}
 
-I would like to use the term project to substitute for the final exam.  
-In other words I  would like to take the option where I submit a project
-with maximum score of 25 points.
-
-I would like to do a project in Category II: Programming tasks.
-
-
+11/7 lecture - 7:00 exam requirements for lstm subject
