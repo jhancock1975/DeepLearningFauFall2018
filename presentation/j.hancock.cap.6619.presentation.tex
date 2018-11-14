@@ -25,7 +25,7 @@
 
 %\usetheme{default}
 %\usetheme{AnnArbor}
-\usetheme{Antibes}
+%\usetheme{Antibes}
 %\usetheme{Bergen}
 %\usetheme{Berkeley}
 %\usetheme{Berlin}
@@ -112,148 +112,69 @@ Florida Atlantic University \\ % Your institution for the title page
 %----------------------------------------------------------------------------------------
 
 %------------------------------------------------
-\section{Generative Adversarial Networks} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
+\section{Definitions} % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
 %------------------------------------------------
 
-\subsection{Definitions} % A subsection can be created just before a set of slides with a common theme to further break down your presentation into chunks
-
 \begin{frame}
-\frametitle{Paragraphs of Text}
+\frametitle{Background}
 A generative adversarial network is
+A deep convolutional generative adversarial network is
 \end{frame}
 
 %------------------------------------------------
-
+\section{What is the paper about}
 \begin{frame}
-\frametitle{Bullet Points}
+\frametitle{What the paper is about}
+The authors of the paper make several contributions they...
 \begin{itemize}
-\item Lorem ipsum dolor sit amet, consectetur adipiscing elit
-\item Aliquam blandit faucibus nisi, sit amet dapibus enim tempus eu
-\item Nulla commodo, erat quis gravida posuere, elit lacus lobortis est, quis porttitor odio mauris at libero
-\item Nam cursus est eget velit posuere pellentesque
-\item Vestibulum faucibus velit a augue condimentum quis convallis nulla gravida
+  \item invent the deep convolutional generative adversarial network (DCGAN),
+  \item apply the components of a DCGAN to a classification problem,
+  \item demonstrate that after training the DCGAN, its filters learn how to
+    represent images, and
+  \item present a method of doing arithmetic using DCGAN filters to do 
+    inferences \emph{{\`a} la} Word2Vec \cite{word2Vec}.
 \end{itemize}
 \end{frame}
 
 %------------------------------------------------
-
+\section{How did they do it?}
 \begin{frame}
-\frametitle{Blocks of Highlighted Text}
-\begin{block}{Block 1}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-\end{block}
-
-\begin{block}{Block 2}
-Pellentesque sed tellus purus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum quis magna at risus dictum tempor eu vitae velit.
-\end{block}
-
-\begin{block}{Block 3}
-Suspendisse tincidunt sagittis gravida. Curabitur condimentum, enim sed venenatis rutrum, ipsum neque consectetur orci, sed blandit justo nisi ac lacus.
-\end{block}
+\frametitle{How did they do it?}
+The authors of the paper make several contributions:
+Here reference github code implementation
 \end{frame}
 
 %------------------------------------------------
 
-\begin{frame}
-\frametitle{Multiple Columns}
-\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
-
-\column{.45\textwidth} % Left column and width
-\textbf{Heading}
-\begin{enumerate}
-\item Statement
-\item Explanation
-\item Example
-\end{enumerate}
-
-\column{.5\textwidth} % Right column and width
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
-
-\end{columns}
-\end{frame}
-
 %------------------------------------------------
-\section{Second Section}
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Table}
-\begin{table}
-\begin{tabular}{l l l}
-\toprule
-\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
-\midrule
-Treatment 1 & 0.0003262 & 0.562 \\
-Treatment 2 & 0.0015681 & 0.910 \\
-Treatment 3 & 0.0009271 & 0.296 \\
-\bottomrule
-\end{tabular}
-\caption{Table caption}
-\end{table}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-\frametitle{Verbatim}
-\begin{example}[Theorem Slide Code]
-\begin{verbatim}
-\begin{frame}
-\frametitle{Theorem}
-\begin{theorem}[Mass--energy equivalence]
-$E = mc^2$
-\end{theorem}
-\end{frame}\end{verbatim}
-\end{example}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}
-\frametitle{Figure}
-Uncomment the code on this slide to include your own image from the same directory as the template .TeX file.
-%\begin{figure}
-%\includegraphics[width=0.8\linewidth]{test}
-%\end{figure}
-\end{frame}
-
-%------------------------------------------------
-
-\begin{frame}[fragile] % Need to use the fragile option when verbatim is used in the slide
-\frametitle{Citation}
-An example of the \verb|\cite| command to cite within the presentation:\\~
-
-This statement requires citation \cite{p1}.
-\end{frame}
-
-%------------------------------------------------
-% ieee bibliography guide: https://ieee-dataport.org/sites/default/files/analysis/27/IEEE%20Citation%20Guidelines.pdf
+% http://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE_Style_Manual.pdf
 
 \begin{frame}
 \frametitle{References}
 \footnotesize{
 \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
-\bibitem[dcgan, 2016]{repLearnDcgan} S. Chintala, L. Metz, and A. Radford, 
-``Unsupervised Representation Learning With Deep Convolutional Generative 
-Adversarial Networks,'' \emph{arXiv.org}, January, 2016. [Online], Available:
-\url{https://arxiv.org/pdf/1511.06434.pdf}. [Accessed Nov. 10, 2018].
+\bibitem{repLearnDcgan} S. Chintala, L. Metz, and A. Radford, 
+Unsupervised representation learning with deep convolutional generative 
+adversarial networks.  2016. [Online]. Available: arXiv:1511.06434v2 [cs.LG]
+ 
+\bibitem{gan} Y. Bengio, A. Courville,I. Goodfellow, M. Mirza, S. Ozair,  
+J. Pouget-Abadie,  D. Warde-Farley, B. Xu, Generative adversarial nets. 2014. 
+[Online]. Available: arXiv:1406.2661v1 [stat.ML]
 
-\bibitem[gan, 2014]{gan} I. Goodfellow, \emph{et al.}, 
-``Generative Adversarial Nets,'' \emph{arXiv.org}, June, 2014. [Online], 
-Available: \url{https://arxiv.org/pdf/1406.2661.pdf}. [Accessed Nov. 10, 2018]. 
+\bibitem{word2Vec} T. Mikolov, I. Sutskever, K. Chen, G. Corrado, J. Dean,
+``Distributed Representations of Words and Phrases and their Compositionality,''
+Advances in Neural Information Processing Systems 26 (NIPS 2013), 2013. 
+[Online] Available: \url{http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf}
 
-\bibitem[slidetemplate]{slidetemplate} Creodocs Limited,``Beamer Presentation,''
-\emph{latextemplates.com}, 2018. [Online], Available: \url{http://www.latextemplates.com/templates/presentations/1/presentation_1.zip}. [Accessed Nov. 10, 2018].
+\bibitem{slidetemplate} Creodocs Limited,``Beamer Presentation,''
+\emph{latextemplates.com}, 2018. [Online], Available: 
+\url{http://www.latextemplates.com/templates/presentations/1/presentation_1.zip}. [Accessed Nov. 10, 2018].
 
+\bibitem{ieeeStyle} IEEE, Piscataway, NJ, USA. \emph{IEEE Editorial Style Manual}. 2016.
+[Online]. Available: \url{http://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE_Style_Manual.pdf}, Accessed on: Nov. 11, 2018.
+
+\bibitem{unsupVideo} Y. LeCun, ``Unsupervised Representation Learning,''
+2017. Accessed on: Nov 11, 2018. [online]. Available: \url{https://www.youtube.com/watch?v=ceD736_Fknc}  
 \end{thebibliography}
 }
 \end{frame}
