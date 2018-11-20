@@ -15,3 +15,6 @@ for exam - no code task but must write cnn strcuture (11/2 lecture 2:39 sec)
 ll/2 lecture 3:12 start RNN\section{Project Type}
 
 11/7 lecture - 7:00 exam requirements for lstm subject
+
+lectures to pay attention to  - brezensky, and pretraining , last lecture
+on deep convolution networks for sentiment analysis

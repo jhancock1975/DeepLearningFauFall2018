@@ -78,6 +78,7 @@
 
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
+\usepackage{url}
 
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
@@ -117,17 +118,23 @@ Florida Atlantic University \\ % Your institution for the title page
 
 \begin{frame}
 \frametitle{Background}
-A generative adversarial network is
+A generative adversarial network (GAN) is a neural network with two components:
+\begin{itemize}
+  \item a \textit{generator} that learns to transform vectors of random numbers into
+    output values.  In the context of this paper, the outputs are images.  However, 
+   researchers use GAN's where the generators create 
+\end{itemize}
 A deep convolutional generative adversarial network is
 \end{frame}
 
 %------------------------------------------------
-\section{What is the paper about}
+\section{Subject}
 \begin{frame}
-\frametitle{What the paper is about}
+\frametitle{Subject}
+
 The authors of the paper make several contributions they...
 \begin{itemize}
-  \item invent the deep convolutional generative adversarial network (DCGAN),
+  \item invent an architecture for deep convolutional generative adversarial network (DCGAN),
   \item apply the components of a DCGAN to a classification problem,
   \item demonstrate that after training the DCGAN, its filters learn how to
     represent images, and
@@ -137,26 +144,108 @@ The authors of the paper make several contributions they...
 \end{frame}
 
 %------------------------------------------------
+\section{Architecture}
+\begin{frame}
+\frametitle{Architecture}
+A high-level overview of the architecture:
+\begin{itemize}
+  \item they use convolutions
+  \item they use de-convolutions
+  \item subsequent work \cite{deepLearnR} \cite{deepLearnBookGenCh} suggests one
+   should employ dropout, but we do not find that the authors of this paper use it
+   when inspecting the code in \cite{dcganCode}.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
 \section{How did they do it?}
 \begin{frame}
 \frametitle{How did they do it?}
-The authors of the paper make several contributions:
-Here reference github code implementation
+The code for this paper, as well as many others in the references and
+that one may find in the course of research, is on Github in the dcgan\_code
+project \cite{dcganCode}.
+
+This code is a bit outdated, however the dcgan\_code Github project has a link
+to the DCGAN-tensorflow \cite{dcganTf} project that we find more accessible.
 \end{frame}
 
 %------------------------------------------------
 
+\begin{frame}
+\frametitle{Datasets}
+\begin{itemize}
+  \item The authors use three datasets for training:
+  \begin{itemize}
+    \item Large Scale Scene Understanding (LSUN),
+    \item Imagenet 1-K, and
+    \item Faces.
+  \end{itemize}  
+  \item The authors two datasets for evaluating unsupervised learning:
+  \begin{itemize}
+    \item Canadian Institute for Advanced Research (CIFAR) 10
+    \item StreetView House Numbers (SVHN)
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{LSUN}
+\begin{itemize}
+ \item The authors used images of bedrooms from the LSUN dataset \cite{lsunDataset} as input to their model.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+
+\subsection{Run their MNIST Example}
+\begin{frame}
+\frametitle{How did they do it?}
+The authors of the paper make several contributions:
+Here reference github code implementation
+How to run their mnist example:
+\begin{itemize}
+  \item Use AWS Ubuntu Deep Learning Instance
+  \item \begin{itemize}
+    \item Expensive $\approx$ \$0.65 per hour!
+    \item Configure an alarm to shut the instance down after 3 hours!
+    \end{itemize}
+ \item Create virtual environment
+ \item \begin{itemize}
+    \item Use pip to install libraries
+    \item force install of Theano 0.9.0 (pip install -I Theano 0.9.0)
+    \end{itemize} 
+ \item \begin{itemize}
+    \item Paper dcgan\_code repository does not have MNIST data,
+    \item Download MNIST data from \url{https://github.com/Manuel4131/GoMNIST/tree/master/data}, and change location in lib/config.py
+    \end{itemize}
+ \end{itemize}
+\end{frame}
+
 %------------------------------------------------
 % http://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE_Style_Manual.pdf
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{References}
 \footnotesize{
 \begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+
 \bibitem{repLearnDcgan} S. Chintala, L. Metz, and A. Radford, 
 Unsupervised representation learning with deep convolutional generative 
 adversarial networks.  2016. [Online]. Available: arXiv:1511.06434v2 [cs.LG]
- 
+
+\bibitem{dcganCode} S. Chintala, L. Metz, and A. Radford, dcgan\_code. (2016,
+May).  Available: \url{https://github.com/Newmu/dcgan\_code}. [Accessed Nov. 19,
+2018].
+
+\bibitem{lsunDataset} Large Scale Scene Understanding Challenge (2017, July).
+Available: \url{http://lsun.cs.princeton.edu/2017/}. [Accessed Nov. 19, 2018].
+
+\bibitem{dcganTf} T Kim. (2018, August).  Available: \url{https://github.com/carpedm20/DCGAN-tensorflow}. [Accessed Nov. 19, 2018].
+
+
 \bibitem{gan} Y. Bengio, A. Courville,I. Goodfellow, M. Mirza, S. Ozair,  
 J. Pouget-Abadie,  D. Warde-Farley, B. Xu, Generative adversarial nets. 2014. 
 [Online]. Available: arXiv:1406.2661v1 [stat.ML]
@@ -164,14 +253,14 @@ J. Pouget-Abadie,  D. Warde-Farley, B. Xu, Generative adversarial nets. 2014.
 \bibitem{word2Vec} T. Mikolov, I. Sutskever, K. Chen, G. Corrado, J. Dean,
 ``Distributed Representations of Words and Phrases and their Compositionality,''
 Advances in Neural Information Processing Systems 26 (NIPS 2013), 2013. 
-[Online] Available: \url{http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf}
+[Online] Available: \url{http://papers.nips.cc/paper/5021-distributed-}representations-of-words-and-phrases-and-their-compositionality.pdf
 
 \bibitem{slidetemplate} Creodocs Limited,``Beamer Presentation,''
 \emph{latextemplates.com}, 2018. [Online], Available: 
-\url{http://www.latextemplates.com/templates/presentations/1/presentation_1.zip}. [Accessed Nov. 10, 2018].
+\url{http://www.latextemplates.com/templates/presentations/1/presentation\_1.zip}. [Accessed Nov. 10, 2018].
 
 \bibitem{ieeeStyle} IEEE, Piscataway, NJ, USA. \emph{IEEE Editorial Style Manual}. 2016.
-[Online]. Available: \url{http://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE_Style_Manual.pdf}, Accessed on: Nov. 11, 2018.
+[Online]. Available: \url{http://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE\_Style_Manual.pdf}, Accessed on: Nov. 11, 2018.
 
 \bibitem{unsupVideo} Y. LeCun, ``Unsupervised Representation Learning,''
 2017. Accessed on: Nov 11, 2018. [online]. Available: \url{https://www.youtube.com/watch?v=ceD736_Fknc}  
