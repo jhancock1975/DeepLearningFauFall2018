@@ -135,10 +135,11 @@ A deep convolutional generative adversarial network is
 The authors of the paper make several contributions they...
 \begin{itemize}
   \item invent an architecture for deep convolutional generative adversarial network (DCGAN),
-  \item apply the components of a DCGAN to a classification problem,
+  \item use the convolutional layer filters of trained DCGAN's discriminators as 
+    feature extractors for doing classifications,
   \item demonstrate that after training the DCGAN, its filters learn how to
     represent images, and
-  \item present a method of doing arithmetic using DCGAN filters to do 
+  \item present a method of doing vector arithmetic using DCGAN inputs to do 
     inferences \emph{{\`a} la} Word2Vec \cite{word2Vec}.
 \end{itemize}
 \end{frame}
@@ -151,13 +152,24 @@ A high-level overview of the architecture:
 \begin{itemize}
   \item they use convolutions
   \item they use de-convolutions
-  \item subsequent work \cite{deepLearnR} \cite{deepLearnBookGenCh} suggests one
+  \item subsequent work such as the texts for this course 
+   \cite{deepLearnR} \cite{deepLearnBookGenCh} suggests one
    should employ dropout, but we do not find that the authors of this paper use it
    when inspecting the code in \cite{dcganCode}.
 \end{itemize}
 \end{frame}
 
 %------------------------------------------------
+
+\begin{frame}
+\frametitle{Architecture}
+subsection{Deconvolution visualization}
+The authors of the paper prefer the term, ``fractionally-strided.'' 
+
+\end{frame}
+
+%------------------------------------------------
+
 \section{How did they do it?}
 \begin{frame}
 \frametitle{How did they do it?}
@@ -185,6 +197,8 @@ to the DCGAN-tensorflow \cite{dcganTf} project that we find more accessible.
     \item Canadian Institute for Advanced Research (CIFAR) 10
     \item StreetView House Numbers (SVHN)
   \end{itemize}
+  \item Note: the authors mention that they heuristically removed duplicate
+    images from LSUN to prevent the DCGAN from memorizing images.
 \end{itemize}
 \end{frame}
 
@@ -225,7 +239,7 @@ How to run their mnist example:
 \end{frame}
 
 %------------------------------------------------
-% http://ieeeauthorcenter.ieee.org/wp-content/uploads/IEEE_Style_Manual.pdf
+% https://ieee-dataport.org/sites/default/files/analysis/27/IEEE%20Citation%20Guidelines.pdf
 
 \begin{frame}[allowframebreaks]
 \frametitle{References}
@@ -264,6 +278,13 @@ Advances in Neural Information Processing Systems 26 (NIPS 2013), 2013.
 
 \bibitem{unsupVideo} Y. LeCun, ``Unsupervised Representation Learning,''
 2017. Accessed on: Nov 11, 2018. [online]. Available: \url{https://www.youtube.com/watch?v=ceD736_Fknc}  
+
+\bibitem{deepLearnR} F. Chollet, and J.J. Allaire.  
+\textit{Deep Learning with R}. Manning Publications 2018. [E-Book] Available: Safari
+E-Book.
+
+\bibitem{deepLearnBookGenCh} Y. Bengio, A. Courville, I. Goodfellow. (2016). ``Chapter 20 Deep Generative Models,'' 2016. [Online] Available: \url{https://www.deeplearningbook.org/contents/generative_models.html}. [Accessed: Nov. 20, 2018].
+ 
 \end{thebibliography}
 }
 \end{frame}
