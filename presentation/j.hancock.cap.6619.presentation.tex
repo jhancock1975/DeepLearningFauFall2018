@@ -115,25 +115,38 @@ Florida Atlantic University \\ % Your institution for the title page
 \section{Introduction}
 \begin{frame}
 \frametitle{Introduction}
-In the field of deep learning, we have crossed into an era where we are experimenting 
-with designs that involve more than one neural network.  
+\begin{itemize}
+    \item In the field of deep learning, we have crossed into an era where we
+are experimenting with designs that involve more than one neural network.  
+    
+    \item Generative adversarial networks are a design pattern to employ two
+neural networks.  
+    
+    \item ``Unsupervised representational learning with deep convolutional
+generative adversarial networks''  \cite{repLearnDcgan}, is a milestone in the
+development of Generative Adversarial Networks where the authors report a
+reliable architecture that incorporates convolutional neural networks into the
+generative adversarial network design.  
+    
+    \item The authors tout several applications of their design to prove its
+utility.
+    
+    \item For the remainder of this presentation, we will refer to the paper
+entitled , ``Unsupervised representational learning with deep convolutional
+generative adversarial networks,'' as,  ``the DCGAN's paper,'' or by its
+reference number \cite{repLearnDcgan}.  
+\end{itemize}
+\end{frame}
 
-Generative adversarial networks are a design pattern to employ two neural networks.  
+%------------------------------------------------
 
-``Unsupervised representational learning with deep convolutional generative 
-adversarial networks''  \cite{repLearnDcgan}, is a milestone in the development of 
-Generative Adversarial Networks where the authors report a reliable architecture 
-that incorporates convolutional neural networks into the generative adversarial 
-network design.  
-
-
-The authors tout several applications of their design to prove its utility.
-
-For the remainder of this presentation, we will refer to the paper entitled , 
-``Unsupervised representational learning with deep convolutional generative 
-adversarial networks,'' as,  ``the DCGAN's paper,'' or by its reference number
-\cite{repLearnDcgan}.
-
+\begin{frame}
+\frametitle{Introduction}
+A note about the DCGAN's paper: we find the authors of \cite{repLearnDcgan} rely
+very little on mathematics to prove anything about their work.  Instead, they
+make the software they report on in the paper publicly available \cite{dcganCode}.
+One must study and execute this publicly available code in order to fully appreciate
+their work.
 \end{frame}
 
 %------------------------------------------------
@@ -200,32 +213,118 @@ The authors of the paper make several contributions they...
     inferences \emph{{\`a} la} Word2Vec \cite{word2Vec}.
 \end{itemize}
 \end{frame}
-
 %------------------------------------------------
 \section{Architecture}
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Architecture}
 A high-level overview of the architecture:
 \begin{itemize}
-  \item they use convolutions
-  \item they use de-convolutions
-  \item subsequent work such as the texts for this course 
-   \cite{deepLearnR} \cite{deepLearnBookGenCh} suggests one
-   should employ dropout, but we do not find that the authors of this paper use it
-   when inspecting the code in \cite{dcganCode}.
+\item Here is an example of code the authors write to link the generator and
+  discriminator.  
+\end{itemize}
+\begin{tiny}
+\begin{lstlisting}
+gX = gen(Z, *gen_params)
+
+p_real = discrim(X, *discrim_params)
+p_gen = discrim(gX, *discrim_params)
+
+d_cost_real = bce(p_real, T.ones(p_real.shape)).mean()
+d_cost_gen = bce(p_gen, T.zeros(p_gen.shape)).mean()
+g_cost_d = bce(p_gen, T.ones(p_gen.shape)).mean()
+
+d_cost = d_cost_real + d_cost_gen
+g_cost = g_cost_d
+\end{lstlisting}
+\end{tiny}
+\begin{footnotesize}
+\begin{itemize}
+\item Keep in mind: the discriminator's output layer uses a softmax activation.
+  we interpret the output layer values as probabilities.
+
+\item  We associate a high cost with the discriminator giving an output
+with a high probability for any outptut for generated inputs because that means
+the generator fooled the discriminator.  This is what d\_cost\_gen does.
+
+\item We associate a low cost for the discriminator's doing the same thing for
+``real,'' inputs.  This is what d\_cost\_real does.
+
+\item We associate a low cost with the generator's producing an output that the 
+  discriminator gives a high probability output for.
+
+\end{itemize}
+\end{footnotesize}
+\end{frame}
+%------------------------------------------------
+\begin{frame}[fragile]
+\frametitle{Architecture}
+\begin{itemize}
+\item The \textbf{\textit{discriminator}}:
+  \begin{itemize}
+    \item is a convolutional neural network. 
+  \end{itemize}
+\item Here is the code from \cite{dcganCode} that defines it:
+\end{itemize}
+\begin{tiny}
+\begin{lstlisting}
+def discrim(X, w, w2, g2, b2, w3, g3, b3, w4, g4, b4, wy):
+  h = lrelu(dnn_conv(X, w, subsample=(2, 2), 
+    border_mode=(2, 2)))
+  h2 = lrelu(batchnorm(dnn_conv(h, w2, subsample=(2, 2), 
+    border_mode=(2, 2)), g=g2, b=b2))
+  h3 = lrelu(batchnorm(dnn_conv(h2, w3, subsample=(2, 2), 
+    border_mode=(2, 2)), g=g3, b=b3))
+  h4 = lrelu(batchnorm(dnn_conv(h3, w4, subsample=(2, 2), 
+    border_mode=(2, 2)), g=g4, b=b4))
+  h4 = T.flatten(h4, 2)
+  y = sigmoid(T.dot(h4, wy))
+  return y
+\end{lstlisting}
+\end{tiny}
+\begin{itemize}
+  \item 
+    The important thing to notice in the code above is that the authors implement 
+    the discriminator as a six layer neural network with four convolutional layers,
+    a flattening layer, and an output layer that uses the sigmoid activation but 
+    leaky rectified linear units (ReLU's) elsewhere.
 \end{itemize}
 \end{frame}
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[fragile]
 \frametitle{Architecture}
-subsection{Deconvolution visualization}
-The term deconvolution seems to have stuck because we see library functions in
-
-The authors of the paper prefer the term, ``fractionally-strided.'' We find another
-author who gives the name, ``
-
+\begin{itemize}
+ \item The generator uses fractionally-strided layers.
+ \item The authors of the paper prefer the term, ``fractionally-strided.'' However
+  in the course of research one might encounter layers implemented with the same
+  functionality referred to as deconvolutional layers.
+\item Here is the code for the discriminator implementation:
+\end{itemize}
+\begin{tiny} 
+\begin{lstlisting}
+def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
+    h = relu(batchnorm(T.dot(Z, w), g=g, b=b))
+    h = h.reshape((h.shape[0], ngf*8, 4, 4))
+    h2 = relu(batchnorm(deconv(h, w2, subsample=(2, 2), 
+      border_mode=(2, 2)), g=g2, b=b2))
+    h3 = relu(batchnorm(deconv(h2, w3, subsample=(2, 2), 
+      border_mode=(2, 2)), g=g3, b=b3))
+    h4 = relu(batchnorm(deconv(h3, w4, subsample=(2, 2), 
+      border_mode=(2, 2)), g=g4, b=b4))
+    x = tanh(deconv(h4, wx, subsample=(2, 2), border_mode=(2, 2)))
+    return x
+\end{lstlisting}
+\end{tiny}
+\begin{footnotesize}
+\begin{itemize}
+\item The important thing to notice about the generator is that the input
+  layer transforms a vector of random values into a $1024  \times 4 \times 4$
+  tensor.  The authors then add 5 fractionally-strided convolutional layers, and
+  use a tanh activation for the output layer. The authors write that using tanh
+  gives better output as images, and speeds up training \cite{repLearnDcgan}. 
+\end{itemize}
+\end{footnotesize}
 \end{frame}
 
 %------------------------------------------------
@@ -262,7 +361,7 @@ author who gives the name, ``
 
 \section{Implementation Details}
 \begin{frame}
-\frametitle{How did they do it?}
+\frametitle{Implementation Details}
 The code for this paper, as well as many others in the references and
 that one may find in the course of research, is on Github in the dcgan\_code
 project \cite{dcganCode}.
@@ -341,8 +440,8 @@ filter, and stride.
 have for conv2d\_transpose and the filters that the authors of the DCGAn's paper
 show on page 9. 
 
-\item In the context of the DCGAN paper it is better to think of the
-filter parameter of conv2d\_transpose  as a kernel for the conv2d\_transpose operation,
+\item In the context of the DCGAN paper it is better to think of the filter
+parameter of conv2d\_transpose  as a kernel for the conv2d\_transpose operation,
 and the filter is the result of applying conv2d\_transpose to the input tensor. 
 \end{itemize}
 \end{frame}
@@ -380,10 +479,20 @@ The input tensor:
 The output we can see the entries in the input matrix copied into 5x5 intermediate
 tensors and then added according to the stride of 4, and values are added when
 we have overlap.  We show a screen shot to prove the code runs.
+
 \includegraphics[scale=0.25]{conv2d-result}
+
 \end{frame}
 
 %------------------------------------------------
+
+\begin{frame}
+\frametitle{Fractionally-strided convolutions}
+
+\end{frame}
+
+%------------------------------------------------
+
 
 \section{Run Tensorflow Implementation MNIST Example}
 \begin{frame}
