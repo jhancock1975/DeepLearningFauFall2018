@@ -3,10 +3,9 @@
 % Frame title
 \defbeamertemplate*{frametitle}{texsx}[1][]
 {
-\vskip1cm%
   \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle} 
   \begin{tikzpicture}
-  \useasboundingbox[fill=white](0,0) rectangle(\the\paperwidth,1.2);
+ \useasboundingbox[fill=white](0,0) rectangle(\the\paperwidth,1.2);
   \fill[orange] (0,0) rectangle(2.95,1.2);
   \fill[blue!50!cyan!80] (3.05,0) rectangle(\the\paperwidth,1.2);
    \ifx\insertframesubtitle\@empty%
