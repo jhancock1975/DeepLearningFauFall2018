@@ -50,6 +50,7 @@
 %\usetheme{Singapore}
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
+%\usetheme{texsx}
 
 % As well as themes, the Beamer class has a number of color themes
 % for any slide theme. Uncomment each of these in turn to see how it
@@ -123,18 +124,22 @@ are experimenting with designs that involve more than one neural network.
 neural networks.  
     
     \item ``Unsupervised representational learning with deep convolutional
-generative adversarial networks''  \cite{repLearnDcgan}, is a milestone in the
-development of Generative Adversarial Networks where the authors report a
-reliable architecture that incorporates convolutional neural networks into the
-generative adversarial network design.  
+generative adversarial networks'', by Alec Radford,  Luke Metz, and Soumith Chintala
+\cite{repLearnDcgan}, is a milestone in the development of Generative Adversarial 
+Networks. 
+    \item The authors report a reliable architecture that incorporates convolutional 
+neural networks into the generative adversarial network design.  
     
     \item The authors tout several applications of their design to prove its
 utility.
     
-    \item For the remainder of this presentation, we will refer to the paper
+    \item 
+    \begin{tiny} For the remainder of this presentation, we will refer to the paper
 entitled , ``Unsupervised representational learning with deep convolutional
 generative adversarial networks,'' as,  ``the DCGAN's paper,'' or by its
-reference number \cite{repLearnDcgan}.  
+reference number \cite{repLearnDcgan}, and Alec Radford,  Luke Metz, and Soumith 
+Chintala as, ``the authors.''
+\end{tiny}
 \end{itemize}
 \end{frame}
 
@@ -142,11 +147,22 @@ reference number \cite{repLearnDcgan}.
 
 \begin{frame}
 \frametitle{Introduction}
-A note about the DCGAN's paper: we find the authors of \cite{repLearnDcgan} rely
-very little on mathematics to prove anything about their work.  Instead, they
-make the software they report on in the paper publicly available \cite{dcganCode}.
-One must study and execute this publicly available code in order to fully appreciate
-their work.
+\begin{itemize}
+
+\item A note about the DCGAN's paper: we find the authors of \cite{repLearnDcgan} rely
+  very little on mathematics to prove anything about their work.  Instead, they
+  make the software they report on in the paper publicly available \cite{dcganCode}.
+  One must study and execute this publicly available code in order to fully appreciate
+  their work.
+
+\item The authors put their DCGAN's in the class of, ``parametric models,'' of
+  generative image models.
+
+\item For contrast the authors write that non-parametric models, ``...do
+  matching  from a database of existing images''.
+
+\end{itemize}
+
 \end{frame}
 
 %------------------------------------------------
@@ -353,21 +369,147 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
 \begin{frame}
 \frametitle{LSUN}
 \begin{itemize}
- \item The authors used images of bedrooms from the LSUN dataset \cite{lsunDataset} as input to their model.
+  \item The authors use images of bedrooms from the LSUN dataset
+  \cite{lsunDataset} as input to their DCGAN.
+
+  \item Then they find a way to identify and remove the generators feature maps
+  \cite{repLearnDcgan} associated with windows.  Note: see explanation of feature
+  maps in Dr. Zhu's lectures on CNN's \cite{cnnlecture}. 
+
+  \item After removing these feature maps, the generator no longer produces images
+    of bedrooms with windows.
+
+  \item The authors claim that this experiment proves the generator is learning
+   representations of objects in an unsupervised manner. 
 \end{itemize}
 \end{frame}
 
 %------------------------------------------------
 
-\section{Implementation Details}
 \begin{frame}
-\frametitle{Implementation Details}
-The code for this paper, as well as many others in the references and
+\frametitle{CIFAR}
+\begin{itemize}
+ \item The authors use images from the \textbf{\textit{Imagenet 1-k}} dataset as input to a DCGAN.
+ \item After training, they take all the convolutional layers the discriminator
+ learns, and use them as feature extractors. 
+ 
+\item However they accomplished this, the authors then use the feature extractor 
+  they created from the DCGAN's discriminator for a support vector machine based
+  classifier.
+\item They then used images from \textbf{\textit{CFAR-10}} dataset as inputs to this
+  classifier that they report as 82.8\% accurate. They mention similar K-Means based
+  approaches that get lower accuracy so the result is competitive and noteworthy.
+ 
+\item This result is remarkable because they built a classifier that is able to
+  correctly categorize images from one dataset, based on unsupervised learning
+  methods involving a different dataset.  It proves GAN's have generalization power.
+
+
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{SVHN}
+\begin{itemize}
+ \item We interpret the wording the authors use in section 5.2 to mean that the
+   authors use images from the SVHN dataset as input to a DCGAN.
+ \item It is not clear what the authors mean by, ``non-extra set'' they use 
+  for training their model.
+ \item Is is our understanding that they train a DCGAN on the SHVN dataset, and
+  then build a feature extractor similar to what they do with the DCGAN they
+  build for Imagenet 1-k.
+\item Using this feature extractor, the authors then incorporate this into an
+  L2-SVM classifier that we suppose is classifying images from SVHN.
+\item The notable result the authors report is that the classifier they build in
+  this manner gets a lower error rate than a similar classifier built with a
+  standard convolutional neural network.
+
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Faces}
+\begin{itemize}
+\item The authors write that they create a faces dataset of images of faces from
+  randomly selected web sites.
+
+\item After training the DCGAN on this dataset the authors do arithmetic on
+what they call, the ``Z-vectors of sets of exemplar samples for visual concepts.''
+
+\begin{itemize}
+  \item We take this to mean they were able to find groups of vectors of random
+  numbers they used for inputs to the generator that produce images that look like
+  something in particular, for example: a smiling man.
+
+  \item An important clue for our understanding of the term Z-vector is that the
+  first input parameter of the generator function in the code that accompanies this
+  paper \cite{dcganCode} is named, ``Z,'' and other vectors involving random numbers
+  in the code also start with the letter, `z.'
+  \end{itemize}
+
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Faces}
+\begin{itemize}
+\item The authors then do vector addition and subtraction with vectors they obtain
+from the average values of vectors in different exemplar sets.
+
+\item The authors then use the vectors are the results of these arithmetic operations
+as inputs to the generator.
+
+\item Please see the amazing result on the next slide. We feel this is the strongest
+result of the paper. 
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Faces}
+This image is from the DCGAN paper \cite{repLearnDcgan}:
+\includegraphics[scale=0.15]{woman-with-glasses}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Learning representations}
+
+%------------------------------------------------
+\begin{frame}
+\frametitle{Filters that show representation learning}
+\begin{tiny}
+The authors did some processing on the first 6 convolutional features of the
+last convolutional layer of their DCGAN's discriminator to create the image below.  
+This is proof that the discriminator  is learning features.  Note on the
+left-hand side taken before training that the pictures look like entire bedrooms,
+but after training the pictures have key portions of a bedroom scene, like windows
+and beds.  It is as though the model gets to have an idea of what things constitute
+a bedroom!
+\end{tiny}
+\includegraphics[scale=0.35] {feature-maps}
+\end{frame}
+
+\section{Details on fractionally-strided convolutions}
+\begin{frame}
+\frametitle{Details on fractionally-strided convolutions}
+\begin{itemize}
+\item The code for this paper, as well as many others in the references and
 that one may find in the course of research, is on Github in the dcgan\_code
 project \cite{dcganCode}.
 
-This code is a bit outdated, however the dcgan\_code Github project has a link
+\item We found that this is not compatible with the current version of Theano that
+  is available to us.  
+\item However the dcgan\_code Github project has a link
 to the DCGAN-tensorflow \cite{dcganTf} project that we find more accessible.
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -375,40 +517,52 @@ to the DCGAN-tensorflow \cite{dcganTf} project that we find more accessible.
 
 \begin{frame}
 \frametitle{Fractionally-strided convolutions}
-A deep convolutional generative adversarial network (DCGAN) is a GAN that uses
-convolutional neural networks for the generator and discriminator.
+\begin{itemize}
 
-The discriminator uses convolutional layers in the sense we are familiar with, such
-as the convolutional layers LeCun describes in LeNet-5 \cite{lenet5}.
+\item The generator uses convolutional layers that we find called
+deconvolutional layers in the source code that accompanies this paper
+\cite{dcganCode}, and elsewhere, but that in the paper the authors write that
+we should prefer the term ``\textit{fractionally-strided}.''  
 
-However, the generator uses convolutional layers that we find called deconvolutional
-layers in the source code that accompanies this paper \cite{dcganCode}, and elsewhere,
-but that in the paper the authors write that we should prefer the term ``\textit{fractionally-strided}.''  The computations that comprise fractionally-strided convolutions
-are not clear to us from the paper or the source code that accompanies it.  We find
-the source code unclear because the authors implement fractionally-strided 
-convolutions using library functions, the source code of which we run out of time
-to peruse.  The paper lacks detail on how to compute a fractionally-strided 
-convolutions.
+\item The computations that comprise fractionally-strided convolutions are not
+clear to us from the paper or the source code that accompanies it.  
+
+\item We find the source code unclear because the authors implement
+  fractionally-strided convolutions using library functions, the source code of
+  which we run out of time to peruse.  The paper lacks detail on how to compute a
+  fractionally-strided convolutions.
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
 
 \begin{frame}
 \frametitle{Fractionally-strided convolutions}
-On the other hand, the github project \cite{dcganCode} that accompanies the paper
-\cite{repLearnDcgan} links to a Tensorflow implementation of the same code:
-\cite{dcganTf} where the author of this code implements fractionally-strided 
-convolutions using Tensorflow's conv2d\_transpose.  We did some internet searching
-and found \cite{convArith}.   This reference plus using conv2d\_transpose in a
-small example helps us understand precisely how the fractionally-strided convolution
-operation works.  We feel confident to rely on conv2d\_transpose because the 
-authors of the paper \cite{repLearnDcgan} we review here provide a link to the
-code in \cite{dcganTf} in their own code. We feel the authors of the DCGAN's paper's
-endorsement of the Tensorflow code means conv2d\_transpose is a valid method for
-doing what the authors of \cite{repLearnDcgan} refer to as fractionally-strided
-convolutions, and that a good understanding of conv2d\_transpose is a good
-understanding of fractionally-strided convolutions.
-
+\begin{itemize} 
+  \item On the other hand, the github project \cite{dcganCode}
+  that accompanies the paper \cite{repLearnDcgan} links to a Tensorflow
+  implementation of the same code: \cite{dcganTf} where the author of this code
+  implements fractionally-strided convolutions using Tensorflow's
+  conv2d\_transpose.  
+    
+  \item We did some internet searching and found \cite{convArith}.
+  \begin{itemize} 
+    
+  \item This reference plus using conv2d\_transpose in a small
+      example helps us understand precisely how the fractionally-strided convolution
+      operation works.  
+    
+      \item We feel confident to rely on conv2d\_transpose because
+      the authors of the paper \cite{repLearnDcgan} we review here provide a link to
+      the code in \cite{dcganTf} in their own code. 
+          
+      \item We feel the authors of the DCGAN's paper's endorsement of the
+      Tensorflow code means conv2d\_transpose is a valid method for doing what the
+      authors of \cite{repLearnDcgan} refer to as fractionally-strided convolutions,
+      and that a good understanding of conv2d\_transpose is a good understanding of
+      fractionally-strided convolutions.  
+   \end{itemize} 
+\end{itemize}
 \end{frame}
 
 %------------------------------------------------
@@ -492,33 +646,6 @@ we have overlap.  We show a screen shot to prove the code runs.
 \end{frame}
 
 %------------------------------------------------
-
-
-\section{Run Tensorflow Implementation MNIST Example}
-\begin{frame}
-\frametitle{Results}
-The authors of the paper make several contributions:
-Here reference github code implementation
-How to run their mnist example:
-\begin{itemize}
-  \item Use AWS Ubuntu Deep Learning Instance
-  \item \begin{itemize}
-    \item Expensive $\approx$ \$0.65 per hour!
-    \item Configure an alarm to shut the instance down after 3 hours!
-    \end{itemize}
- \item Create virtual environment
- \item \begin{itemize}
-    \item Use pip to install libraries
-    \item force install of Theano 0.9.0 (pip install -I Theano 0.9.0)
-    \end{itemize} 
- \item \begin{itemize}
-    \item Paper dcgan\_code repository does not have MNIST data,
-    \item Download MNIST data from \url{https://github.com/Manuel4131/GoMNIST/tree/master/data}, and change location in lib/config.py
-    \end{itemize}
- \end{itemize}
-\end{frame}
-
-%------------------------------------------------
 % https://ieee-dataport.org/sites/default/files/analysis/27/IEEE%20Citation%20Guidelines.pdf
 
 \begin{frame}[allowframebreaks]
@@ -581,6 +708,11 @@ datascience.stackexchange.com, answer written July 14 2017, edited Nov. 19, 2017
 [Online]. Available: 
 \url{https://datascience.stackexchange.com/questions/6107/what-are-deconvolutional-layers}. 
 [Accessed Nov.  22, 2018].
+
+\bibitem{cnnlecture} Xingquan Zhu. 2018. Convolutional Neural Networks (CNN) retrieved
+ October 22, 2018 from \url{https://canvas.fau.edu/files/14310707/download?download\_fr
+d=1}
+
 \end{thebibliography}
 }
 \end{frame}
