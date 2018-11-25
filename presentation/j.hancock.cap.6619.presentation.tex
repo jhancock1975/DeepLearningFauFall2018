@@ -1,4 +1,4 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Beamer Presentation
 % LaTeX Template
 % Version 1.0 (10/11/12)
@@ -17,65 +17,7 @@
 
 \documentclass{beamer}
 
-\mode<presentation> {
-
-% The Beamer class comes with a number of default slide themes
-% which change the colors and layouts of slides. Below this is a list
-% of all the themes, uncomment each in turn to see what they look like.
-
-%\usetheme{default}
-%\usetheme{AnnArbor}
-%\usetheme{Antibes}
-%\usetheme{Bergen}
-%\usetheme{Berkeley}
-%\usetheme{Berlin}
-%\usetheme{Boadilla}
-%\usetheme{CambridgeUS}
-%\usetheme{Copenhagen}
-%\usetheme{Darmstadt}
-%\usetheme{Dresden}
-%\usetheme{Frankfurt}
-%\usetheme{Goettingen}
-%\usetheme{Hannover}
-%\usetheme{Ilmenau}
-%\usetheme{JuanLesPins}
-%\usetheme{Luebeck}
-%\usetheme{Madrid}
-%\usetheme{Malmoe}
-%\usetheme{Marburg}
-%\usetheme{Montpellier}
-%\usetheme{PaloAlto}
-%\usetheme{Pittsburgh}
-%\usetheme{Rochester}
-%\usetheme{Singapore}
-%\usetheme{Szeged}
-%\usetheme{Warsaw}
 \usetheme{texsx}
-
-% As well as themes, the Beamer class has a number of color themes
-% for any slide theme. Uncomment each of these in turn to see how it
-% changes the colors of your current slide theme.
-
-%\usecolortheme{albatross}
-%\usecolortheme{beaver}
-%\usecolortheme{beetle}
-%\usecolortheme{crane}
-%\usecolortheme{dolphin}
-%\usecolortheme{dove}
-%\usecolortheme{fly}
-%\usecolortheme{lily}
-%\usecolortheme{orchid}
-%\usecolortheme{rose}
-%\usecolortheme{seagull}
-%\usecolortheme{seahorse}
-%\usecolortheme{wolverine}
-
-%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
-%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
-
-%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
-}
-
 \usepackage{graphicx} % Allows including images
 \usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables
 \usepackage{url}
@@ -89,7 +31,7 @@
 Generative Adversarial Networks]{Presentation on ``Unsupervised Representation 
 Learning with Deep Convolutional Generative Adversarial Networks,'' by Alec Radford, Luke Metz, and Soumith Chintala} % The short title appears at the bottom of every slide, the full title is only on the title page
 
-\author[jhancoc4@fau.edu]{John Hancock} % Your name
+\author[Joh Hancock]{John Hancock \texttt{jhancoc4@fau.edu}}
 \date{\today} % Date, can be changed to a custom date
 
 \begin{document}
@@ -174,7 +116,7 @@ Chintala as, ``the authors.''
 \section{Background} 
 % Sections can be created in order to organize your presentation into discrete blocks, all sections and subsections are automatically printed in the table of contents as an overview of the talk
 %------------------------------------------------
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Background}
 A generative adversarial network (GAN) is a neural network with two components. 
 Goodfellow \textit{et. al} invent GAN's in \cite{gan}. To a first approximation,
@@ -231,11 +173,82 @@ The authors of the paper make several contributions they...
     inferences \emph{{\`a} la} Word2Vec \cite{word2Vec}.
 \end{itemize}
 \end{frame}
+
 %------------------------------------------------
 \section{Architecture}
+
+\begin{frame}
+\frametitle{Architecture Diagram}
+
+
+\tikzstyle{format} = [draw, thin, fill=blue!50!cyan!80]
+\tikzstyle{medium} = [draw, thin, fill=red!40]
+\tikzstyle{cost} = [draw, thin, fill=green!20]
+\tikzstyle{input} = [draw, thin, fill=brown!10]
+\tikzstyle{operator} = [circle, draw, thin, fill=green!20]
+
+\begin{footnotesize}
+\begin{figure}
+\begin{tikzpicture}[thick]
+
+\node[input] (noise) at (0,0) {Noise Vector};
+
+\node[input] (dataset) at (0,2) {Dataset};
+
+\node[format](generator) at (3,0) {Generator G};
+
+\node[medium] (gOptimizer) at (6.25, 0) {Optimizer};
+
+\node[format](discriminator) at (3,2) {Discriminator D};
+
+\node[medium] (dOptimizer) at (3,4) {Optimizer};
+
+\node[cost] (dCostDataset) at (6.25,3){D Cost Dataset};
+
+\node[cost] (dCostGenerated) at (6.25,2){D Cost Generated};
+
+\node[cost] (gCostGenerated) at (6.25,1){G Cost Generated};
+
+\node[operator] (adder) at (5.5,4){+};
+
+\draw[->] (noise) -- (generator);
+
+\draw[->] (generator) -- (discriminator) ;
+
+\draw[->] (gOptimizer) -- (generator);
+
+\draw[->] (gCostGenerated) -- (gOptimizer);
+
+\draw[->] (dataset) -- (discriminator);
+
+\draw[->] (discriminator) -- (4.5, 2) |- (dCostDataset);
+\draw[->] (discriminator) -- (4.5,2) |- (gCostGenerated);
+\draw[->] (discriminator) -- (dCostGenerated);
+
+\draw[->] (dCostGenerated) -- (8,2) |- (adder);
+\draw[->] (dCostDataset) -- (8,3) |- (adder);
+
+\draw[->] (adder) -- (dOptimizer);
+
+\draw[->] (dOptimizer) -- (discriminator);
+
+\end{tikzpicture}
+\end{figure}
+\end{footnotesize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Architecture}
+\framesubtitle{Generator Diagram from Paper \cite{repLearnDcgan}}
+\includegraphics[scale=0.2]{generator-diagram}
+\end{frame}
+%------------------------------------------------
+
 \begin{frame}[fragile]
 \frametitle{Architecture}
-\framesubtitle{Generator and Discriminator Linked via Cost Functions}
+\framesubtitle{Generator and Discriminator Cost Functions}
 \begin{footnotesize}
 \begin{itemize}
 \item Here is an example of code the authors write to link the generator and
@@ -299,13 +312,19 @@ def discrim(X, w, w2, g2, b2, w3, g3, b3, w4, g4, b4, wy):
   return y
 \end{lstlisting}
 \end{tiny}
+\begin{small}
 \begin{itemize}
   \item 
     The important thing to notice in the code above is that the authors implement 
     the discriminator as a six layer neural network with four convolutional layers,
     a flattening layer, and an output layer that uses the sigmoid activation but 
     leaky rectified linear units (ReLU's) elsewhere.
+ \item subsequent work such as the texts for this course  - \underline{Deep
+   Learning with R} \cite{deepLearnR}, and \underline{ Deep Learning} 
+   \cite{deepLearnBookGenCh} suggests one should employ dropout, but we do not find 
+that the authors of this paper use it  when we inspect the code in \cite{dcganCode}.
 \end{itemize}
+\end{small}
 \end{frame}
 
 %------------------------------------------------
@@ -360,7 +379,9 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
   \item The authors two datasets for evaluating unsupervised learning: Canadian 
     Institute for Advanced Research (CIFAR) 10 StreetView House Numbers (SVHN)
   \item Note: the authors mention that they heuristically removed duplicate
-    images from LSUN to prevent the DCGAN from memorizing images.
+    images from some dataset(s) to prevent the DCGAN from memorizing images.
+   They do not explicitly say they applied the technique to LSUN but they write
+   about it nearby where they mention LSUN.
 \end{itemize}
 \end{frame}
 
@@ -474,7 +495,7 @@ result of the paper.
 
 \begin{frame}
 \frametitle{Faces}
-This image is from the DCGAN paper \cite{repLearnDcgan}:
+\framesubtitle{This image is from the DCGAN paper \cite{repLearnDcgan}:}
 \includegraphics[scale=0.25]{woman-with-glasses}
 \end{frame}
 
