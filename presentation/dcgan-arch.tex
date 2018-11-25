@@ -1,0 +1,81 @@
+\documentclass{beamer}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage{tikz}
+
+\usepackage{verbatim}
+\usetikzlibrary{arrows,shapes}
+
+
+\begin{document}
+\begin{comment}
+:Title: The TeX work flow
+:Slug: tex-workflow
+:Tags: Beamer, Diagrams
+:Use page: 6
+
+I spotted this well-known diagram of the TeX work flow in [1]_, where it was used to 
+illustrate when a step-by-step presentation technique is appropriate. With Beamer 
+and TikZ it is quite easy to gradually draw a diagram, since the ``\path`` construct
+is overlay aware.  Download the PDF to see it in action.
+
+.. [1] Veytsmann, B. (2006). `Design of Presentations: Notes on
+       Principles and LaTeX Implementation`__. *The PracTeX Journal*, 4
+
+.. __: http://www.tug.org/pracjourn/2006-4/veytsman-design/
+\end{comment}
+
+\begin{frame}
+\frametitle{The \TeX\ work flow}
+
+
+\tikzstyle{format} = [draw, thin, fill=blue!50!cyan!80]
+\tikzstyle{medium} = [draw, thin, fill=red!40]
+\tikzstyle{cost} = [draw, thin, fill=green!20]
+\tikzstyle{cost} = [draw, thin, fill=green!20]
+\begin{footnotesize}
+\begin{figure}
+\begin{tikzpicture}[thick]
+
+\node[medium] (noise) at (0,0) {Noise Vector};
+
+\node[format](generator) at (3,0) {Generator G};
+
+\node[medium] (gOptimizer) at (6.25, 0) {Optimizer};
+
+\node[format](discriminator) at (3,2) {Discriminator D};
+
+\node[medium] (dOptimizer) at (3,4) {Optimizer};
+
+\node[cost] (dCostDataset) at (6.25,3){D Cost Dataset};
+
+\node[cost] (dCostGenerated) at (6.25,2){D Cost Generated};
+
+\node[cost] (gCostGenerated) at (6.25,1){G Cost Generated};
+
+\node[circle,fill=green!20] (adder) at (4.5,4){+};
+
+\draw[->] (noise) -- (generator);
+
+\draw[->] (generator) -- (discriminator) ;
+
+\draw[->] (gOptimizer) -- (generator);
+
+\draw[->] (gCostGenerated) -- (gOptimizer);
+
+\draw[->] (discriminator) -- (dCostDataset);
+\draw[->] (discriminator) -- (gCostGenerated);
+\draw[->] (discriminator) -- (dCostGenerated);
+
+\draw[->] (dCostGenerated) -- (8,2) |- (adder);
+\draw[->] (dCostDataset) -- (adder);
+
+\draw[->] (adder) -- (dOptimizer);
+
+\draw[->] (dOptimizer) -- (discriminator);
+
+\end{tikzpicture}
+\end{figure}
+\end{footnotesize}
+\end{frame}
+\end{document}

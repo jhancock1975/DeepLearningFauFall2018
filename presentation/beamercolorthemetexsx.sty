@@ -3,8 +3,8 @@
 \setbeamertemplate{background}{
   \begin{tikzpicture}
   \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
-  \fill[color=brown] (0,2) rectangle (\the\paperwidth,\the\paperheight);
-  \fill[color=orange] (0,0) rectangle(2.95,1.9);
+  \fill[color=blue] (0,2) rectangle (\the\paperwidth,\the\paperheight);
+  \fill[color=red] (0,0) rectangle(2.95,1.9);
   \fill[color=blue!50!cyan!80] (3.05,0) rectangle(\the\paperwidth,1.9);
   \ifnum\thepage>1\relax%
    \fill[white,opacity=1] (0,0) rectangle(\the\paperwidth,\the\paperheight);
@@ -15,7 +15,7 @@
 % Title page
 \defbeamertemplate*{title page}{texsx}[1][]
 { 
-   \vskip6cm%
+   \vskip3.5cm%
     \begin{beamercolorbox}[wd=12cm,leftskip=3cm,sep=8pt,#1]{title page header}
       \usebeamerfont{title}\inserttitle\par%
     \end{beamercolorbox}%
@@ -33,8 +33,7 @@
 \setbeamercolor*{title page header}{fg=white}
 \setbeamercolor*{author}{fg=white}
 \setbeamercolor*{date}{fg=white}
-
-\setbeamercolor*{item}{fg=orange}
+\setbeamercolor*{item}{fg=red!40}
 
 \mode
 <all>

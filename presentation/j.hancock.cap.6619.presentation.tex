@@ -89,13 +89,7 @@
 Generative Adversarial Networks]{Presentation on ``Unsupervised Representation 
 Learning with Deep Convolutional Generative Adversarial Networks,'' by Alec Radford, Luke Metz, and Soumith Chintala} % The short title appears at the bottom of every slide, the full title is only on the title page
 
-\author{John Hancock} % Your name
-\institute[FAU] % Your institution as it will appear on the bottom of every slide, may be shorthand to save space
-{
-Florida Atlantic University \\ % Your institution for the title page
-\medskip
-\textit{jhancoc4@fau.edu} % Your email address
-}
+\author[jhancoc4@fau.edu]{John Hancock} % Your name
 \date{\today} % Date, can be changed to a custom date
 
 \begin{document}
@@ -131,14 +125,20 @@ neural networks into the generative adversarial network design.
     
     \item The authors tout several applications of their design to prove its
 utility.
-    
-    \item 
-    \begin{tiny} For the remainder of this presentation, we will refer to the paper
+ \end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame}
+\frametitle{Introduction}
+\framesubtitle{Caveat}
+\begin{itemize}
+    \item For the remainder of this presentation, we will refer to the paper
 entitled , ``Unsupervised representational learning with deep convolutional
 generative adversarial networks,'' as,  ``the DCGAN's paper,'' or by its
 reference number \cite{repLearnDcgan}, and Alec Radford,  Luke Metz, and Soumith 
 Chintala as, ``the authors.''
-\end{tiny}
 \end{itemize}
 \end{frame}
 
@@ -148,11 +148,14 @@ Chintala as, ``the authors.''
 \frametitle{Introduction}
 \begin{itemize}
 
-\item A note about the DCGAN's paper: we find the authors of \cite{repLearnDcgan} rely
-  very little on mathematics to prove anything about their work.  Instead, they
+\item A note about the DCGAN's paper: we find the authors of
+\cite{repLearnDcgan} do not include derivations, and very little in the way
+ of performance metrics.   Instead, they
   make the software they report on in the paper publicly available \cite{dcganCode}.
-  One must study and execute this publicly available code in order to fully appreciate
-  their work.
+  One must study and execute this publicly available code, 
+  or a derivative version of it in order to fully appreciate
+  their work. The authors include graphics they claim their code generates, but
+  without sharing their code, the work would be less meaningful.
 
 \item The authors put their DCGAN's in the class of, ``parametric models,'' of
   generative image models.
@@ -232,11 +235,13 @@ The authors of the paper make several contributions they...
 \section{Architecture}
 \begin{frame}[fragile]
 \frametitle{Architecture}
-A high-level overview of the architecture:
+\framesubtitle{Generator and Discriminator Linked via Cost Functions}
+\begin{footnotesize}
 \begin{itemize}
 \item Here is an example of code the authors write to link the generator and
   discriminator.  
 \end{itemize}
+\end{footnotesize}
 \begin{tiny}
 \begin{lstlisting}
 gX = gen(Z, *gen_params)
@@ -255,7 +260,7 @@ g_cost = g_cost_d
 \begin{footnotesize}
 \begin{itemize}
 \item Keep in mind: the discriminator's output layer uses a softmax activation.
-  we interpret the output layer values as probabilities.
+  We interpret the output layer values as probabilities.
 
 \item  We associate a high cost with the discriminator giving an output
 with a high probability for any outptut for generated inputs because that means
@@ -273,11 +278,9 @@ the generator fooled the discriminator.  This is what d\_cost\_gen does.
 %------------------------------------------------
 \begin{frame}[fragile]
 \frametitle{Architecture}
+\framesubtitle{Discriminator}
 \begin{itemize}
-\item The \textbf{\textit{discriminator}}:
-  \begin{itemize}
-    \item is a convolutional neural network. 
-  \end{itemize}
+\item The discriminator is a convolutional neural network. 
 \item Here is the code from \cite{dcganCode} that defines it:
 \end{itemize}
 \begin{tiny}
@@ -309,12 +312,13 @@ def discrim(X, w, w2, g2, b2, w3, g3, b3, w4, g4, b4, wy):
 
 \begin{frame}[fragile]
 \frametitle{Architecture}
+\framesubtitle{Generator}
 \begin{itemize}
  \item The generator uses fractionally-strided layers.
  \item The authors of the paper prefer the term, ``fractionally-strided.'' However
   in the course of research one might encounter layers implemented with the same
   functionality referred to as deconvolutional layers.
-\item Here is the code for the discriminator implementation:
+\item Here is the code for the generator implementation:
 \end{itemize}
 \begin{tiny} 
 \begin{lstlisting}
@@ -353,11 +357,8 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
     \item Imagenet 1-K, and
     \item Faces.
   \end{itemize}  
-  \item The authors two datasets for evaluating unsupervised learning:
-  \begin{itemize}
-    \item Canadian Institute for Advanced Research (CIFAR) 10
-    \item StreetView House Numbers (SVHN)
-  \end{itemize}
+  \item The authors two datasets for evaluating unsupervised learning: Canadian 
+    Institute for Advanced Research (CIFAR) 10 StreetView House Numbers (SVHN)
   \item Note: the authors mention that they heuristically removed duplicate
     images from LSUN to prevent the DCGAN from memorizing images.
 \end{itemize}
@@ -416,7 +417,7 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
    authors use images from the SVHN dataset as input to a DCGAN.
  \item It is not clear what the authors mean by, ``non-extra set'' they use 
   for training their model.
- \item Is is our understanding that they train a DCGAN on the SHVN dataset, and
+ \item Is is our understanding that they train a DCGAN on the SVHN dataset, and
   then build a feature extractor similar to what they do with the DCGAN they
   build for Imagenet 1-k.
 \item Using this feature extractor, the authors then incorporate this into an
@@ -474,7 +475,7 @@ result of the paper.
 \begin{frame}
 \frametitle{Faces}
 This image is from the DCGAN paper \cite{repLearnDcgan}:
-\includegraphics[scale=0.15]{woman-with-glasses}
+\includegraphics[scale=0.25]{woman-with-glasses}
 \end{frame}
 
 %------------------------------------------------
