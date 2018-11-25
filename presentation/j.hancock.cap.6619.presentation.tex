@@ -138,7 +138,7 @@ GAN's work as follows:
 \end{frame}
 
 %------------------------------------------------
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Background}
 \begin{itemize}
 
@@ -159,7 +159,7 @@ GAN's work as follows:
 %------------------------------------------------
 
 \section{Contributions}
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Contributions}
 
 The authors of the paper make several contributions they...
@@ -177,7 +177,7 @@ The authors of the paper make several contributions they...
 %------------------------------------------------
 \section{Architecture}
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Architecture Diagram}
 
 
@@ -239,14 +239,14 @@ The authors of the paper make several contributions they...
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Architecture}
 \framesubtitle{Generator Diagram from Paper \cite{repLearnDcgan}}
 \includegraphics[scale=0.2]{generator-diagram}
 \end{frame}
 %------------------------------------------------
 
-\begin{frame}[fragile]
+\begin{frame}[allowframebreaks, fragile]
 \frametitle{Architecture}
 \framesubtitle{Generator and Discriminator Cost Functions}
 \begin{footnotesize}
@@ -289,7 +289,7 @@ the generator fooled the discriminator.  This is what d\_cost\_gen does.
 \end{footnotesize}
 \end{frame}
 %------------------------------------------------
-\begin{frame}[fragile]
+\begin{frame}[allowframebreaks, fragile]
 \frametitle{Architecture}
 \framesubtitle{Discriminator}
 \begin{itemize}
@@ -329,7 +329,7 @@ that the authors of this paper use it  when we inspect the code in \cite{dcganCo
 
 %------------------------------------------------
 
-\begin{frame}[fragile]
+\begin{frame}[allowframebreaks, fragile]
 \frametitle{Architecture}
 \framesubtitle{Generator}
 \begin{itemize}
@@ -367,7 +367,7 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Datasets}
 \begin{itemize}
   \item The authors use three datasets for training:
@@ -387,7 +387,7 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{LSUN}
 \begin{itemize}
   \item The authors use images of bedrooms from the LSUN dataset
@@ -407,7 +407,7 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{CIFAR}
 \begin{itemize}
  \item The authors use images from the \textbf{\textit{Imagenet 1-k}} dataset as input to a DCGAN.
@@ -431,7 +431,7 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{SVHN}
 \begin{itemize}
  \item We interpret the wording the authors use in section 5.2 to mean that the
@@ -452,7 +452,7 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Faces}
 \begin{itemize}
 \item The authors write that they create a faces dataset of images of faces from
@@ -477,7 +477,7 @@ what they call, the ``Z-vectors of sets of exemplar samples for visual concepts.
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Faces}
 \begin{itemize}
 \item The authors then do vector addition and subtraction with vectors they obtain
@@ -493,7 +493,7 @@ result of the paper.
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Faces}
 \framesubtitle{This image is from the DCGAN paper \cite{repLearnDcgan}:}
 \includegraphics[scale=0.25]{woman-with-glasses}
@@ -504,22 +504,29 @@ result of the paper.
 \section{Learning representations}
 
 %------------------------------------------------
-\begin{frame}
-\frametitle{Filters that show representation learning}
-\begin{tiny}
-The authors did some processing on the first 6 convolutional features of the
+\begin{frame}[allowframebreaks]
+\frametitle{Representation learning visualization}
+\begin{itemize}
+\item The authors did some processing on the first 6 convolutional features of the
 last convolutional layer of their DCGAN's discriminator to create the image below.  
-This is proof that the discriminator  is learning features.  Note on the
-left-hand side taken before training that the pictures look like entire bedrooms,
-but after training the pictures have key portions of a bedroom scene, like windows
-and beds.  It is as though the model gets to have an idea of what things constitute
-a bedroom!
-\end{tiny}
+\item This is proof that the discriminator  is learning features.  
+  \begin{itemize} 
+  \item Note on the
+  left-hand side taken before training that the pictures look like entire bedrooms,
+  but after training the pictures have key portions of a bedroom scene, like windows
+  and beds.
+  \item This demonstrates how the DCGAN is learning to represent objects in
+  images.
+  \end{itemize}
+\end{itemize}
+\begin{figure}
 \includegraphics[scale=0.35] {feature-maps}
+\caption{This image is coped from the paper \cite{repLearnDcgan}.}
+\end{figure}
 \end{frame}
 
 \section{Details on fractionally-strided convolutions}
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Details on fractionally-strided convolutions}
 \begin{itemize}
 \item The code for this paper, as well as many others in the references and
@@ -536,7 +543,7 @@ to the DCGAN-tensorflow \cite{dcganTf} project that we find more accessible.
 %------------------------------------------------
 
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Fractionally-strided convolutions}
 \begin{itemize}
 
@@ -557,7 +564,7 @@ clear to us from the paper or the source code that accompanies it.
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Fractionally-strided convolutions}
 \begin{itemize} 
   \item On the other hand, the github project \cite{dcganCode}
@@ -588,8 +595,9 @@ clear to us from the paper or the source code that accompanies it.
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Fractionally-strided convolutions}
+\framesubtitle{Diagram from StackExchange \cite{stackExConv}}
 We found some example code, and a great diagram from a StackExchange.com discussion 
 \cite{stackExConv}. That explains in detail how conv2d\_transpose works.
 This is the diagram we found:
@@ -603,7 +611,7 @@ will give some highlights.
 \end{frame}
 
 %-----------------------------------------------
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Fractionally-strided convolutions}
 \begin{itemize}
 \item Since anyone might write anything in online discussion forums, we decided to 
@@ -623,7 +631,7 @@ and the filter is the result of applying conv2d\_transpose to the input tensor.
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Fractionally-strided convolutions}
 \begin{itemize}
 
@@ -640,7 +648,7 @@ tensor, except where the 5x5 kernels must overlap in order to achieve the
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Fractionally-strided convolutions}
 The input tensor:
 \[
@@ -661,7 +669,7 @@ we have overlap.  We show a screen shot to prove the code runs.
 
 %------------------------------------------------
 
-\begin{frame}
+\begin{frame}[allowframebreaks]
 \frametitle{Fractionally-strided convolutions}
 
 \end{frame}
@@ -711,7 +719,10 @@ Advances in Neural Information Processing Systems 26 (NIPS 2013), 2013.
 \textit{Deep Learning with R}. Manning Publications 2018. [E-Book] Available: Safari
 E-Book.
 
-\bibitem{deepLearnBookGenCh} Y. Bengio, A. Courville, I. Goodfellow. (2016). ``Chapter 20 Deep Generative Models,'' 2016. [Online] Available: \url{https://www.deeplearningbook.org/contents/generative_models.html}. [Accessed: Nov. 20, 2018].
+\bibitem{deepLearnBookGenCh} Y. Bengio, A. Courville, I. Goodfellow. (2016).
+``Chapter 20 Deep Generative Models,'' 2016. [Online] Available:
+\url{https://www.deeplearningbook.org/contents/generative\_models.html}.
+[Accessed: Nov. 20, 2018].
 
 \bibitem{ganList} A. Hindupur, ``A list of all named GANs!'' github.com, Sep. 30,
 2018. [Online]. Available: \url{https://github.com/hindupuravinash/the-gan-zoo}. 
