@@ -32,12 +32,16 @@ is overlay aware.  Download the PDF to see it in action.
 \tikzstyle{format} = [draw, thin, fill=blue!50!cyan!80]
 \tikzstyle{medium} = [draw, thin, fill=red!40]
 \tikzstyle{cost} = [draw, thin, fill=green!20]
-\tikzstyle{cost} = [draw, thin, fill=green!20]
+\tikzstyle{input} = [draw, thin, fill=brown!10]
+\tikzstyle{operator} = [circle, draw, thin, fill=green!20]
+
 \begin{footnotesize}
 \begin{figure}
 \begin{tikzpicture}[thick]
 
-\node[medium] (noise) at (0,0) {Noise Vector};
+\node[input] (noise) at (0,0) {Noise Vector};
+
+\node[input] (dataset) at (0,2) {Dataset};
 
 \node[format](generator) at (3,0) {Generator G};
 
@@ -53,7 +57,7 @@ is overlay aware.  Download the PDF to see it in action.
 
 \node[cost] (gCostGenerated) at (6.25,1){G Cost Generated};
 
-\node[circle,fill=green!20] (adder) at (4.5,4){+};
+\node[operator] (adder) at (5.5,4){+};
 
 \draw[->] (noise) -- (generator);
 
@@ -63,12 +67,14 @@ is overlay aware.  Download the PDF to see it in action.
 
 \draw[->] (gCostGenerated) -- (gOptimizer);
 
-\draw[->] (discriminator) -- (dCostDataset);
-\draw[->] (discriminator) -- (gCostGenerated);
+\draw[->] (dataset) -- (discriminator);
+
+\draw[->] (discriminator) -- (4.5, 2) |- (dCostDataset);
+\draw[->] (discriminator) -- (4.5,2) |- (gCostGenerated);
 \draw[->] (discriminator) -- (dCostGenerated);
 
 \draw[->] (dCostGenerated) -- (8,2) |- (adder);
-\draw[->] (dCostDataset) -- (adder);
+\draw[->] (dCostDataset) -- (8,3) |- (adder);
 
 \draw[->] (adder) -- (dOptimizer);
 
