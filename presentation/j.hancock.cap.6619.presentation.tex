@@ -99,6 +99,9 @@ Chintala as, ``the authors.''
   their work. The authors include graphics they claim their code generates, but
   without sharing their code, the work would be less meaningful.
 
+\item We ran the code from the derivative Tensorflow implementation in
+\cite{dcganTf} to confirm the DCGAN generates images as advertised.
+
 \item The authors put their DCGAN's in the class of, ``parametric models,'' of
   generative image models.
 
@@ -407,6 +410,50 @@ def gen(Z, w, g, b, w2, g2, b2, w3, g3, b3, w4, g4, b4, wx):
 
 %------------------------------------------------
 
+\section{Learning representations}
+\begin{frame}[allowframebreaks]
+\frametitle{Representation learning visualization}
+\begin{itemize}
+\item The authors did some processing on the first 6 convolutional features of the
+last convolutional layer of their DCGAN's discriminator to create the image below.  
+\item This is proof that the discriminator  is learning features.  
+  \begin{itemize} 
+  \item Note on the
+  left-hand side taken before training that the pictures look like entire bedrooms,
+  but after training the pictures have key portions of a bedroom scene, like windows
+  and beds.
+  \item This demonstrates how the DCGAN is learning to represent objects in
+  images.
+  \end{itemize}
+\end{itemize}
+\begin{figure}
+\includegraphics[scale=0.35] {feature-maps}
+\caption{This image is coped from the paper \cite{repLearnDcgan}.}
+\end{figure}
+\end{frame}
+
+%------------------------------------------------
+
+\section{Details on fractionally-strided convolutions}
+\begin{frame}[allowframebreaks]
+\frametitle{Details on fractionally-strided convolutions}
+\begin{itemize}
+\item The code for this paper, as well as many others in the references and
+that one may find in the course of research, is on Github in the dcgan\_code
+project \cite{dcganCode}.
+
+\item We found that this is not compatible with the current version of Theano that
+  is available to us.  
+\item However the dcgan\_code Github project has a link
+to the DCGAN-tensorflow \cite{dcganTf} project that we find more accessible.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+
+%------------------------------------------------
+
 \begin{frame}[allowframebreaks]
 \frametitle{CIFAR}
 \begin{itemize}
@@ -497,47 +544,6 @@ result of the paper.
 \frametitle{Faces}
 \framesubtitle{This image is from the DCGAN paper \cite{repLearnDcgan}:}
 \includegraphics[scale=0.25]{woman-with-glasses}
-\end{frame}
-
-%------------------------------------------------
-
-\section{Learning representations}
-
-%------------------------------------------------
-\begin{frame}[allowframebreaks]
-\frametitle{Representation learning visualization}
-\begin{itemize}
-\item The authors did some processing on the first 6 convolutional features of the
-last convolutional layer of their DCGAN's discriminator to create the image below.  
-\item This is proof that the discriminator  is learning features.  
-  \begin{itemize} 
-  \item Note on the
-  left-hand side taken before training that the pictures look like entire bedrooms,
-  but after training the pictures have key portions of a bedroom scene, like windows
-  and beds.
-  \item This demonstrates how the DCGAN is learning to represent objects in
-  images.
-  \end{itemize}
-\end{itemize}
-\begin{figure}
-\includegraphics[scale=0.35] {feature-maps}
-\caption{This image is coped from the paper \cite{repLearnDcgan}.}
-\end{figure}
-\end{frame}
-
-\section{Details on fractionally-strided convolutions}
-\begin{frame}[allowframebreaks]
-\frametitle{Details on fractionally-strided convolutions}
-\begin{itemize}
-\item The code for this paper, as well as many others in the references and
-that one may find in the course of research, is on Github in the dcgan\_code
-project \cite{dcganCode}.
-
-\item We found that this is not compatible with the current version of Theano that
-  is available to us.  
-\item However the dcgan\_code Github project has a link
-to the DCGAN-tensorflow \cite{dcganTf} project that we find more accessible.
-\end{itemize}
 \end{frame}
 
 %------------------------------------------------
