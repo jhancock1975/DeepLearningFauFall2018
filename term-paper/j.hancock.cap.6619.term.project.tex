@@ -44,19 +44,19 @@ generative adversarial networks, gan, neural networks, deep learning
 \begin{figure}[htpb]
 \begin{tikzpicture}
 %style for generator node
-\tikzstyle{gnode} = [circle, fill=blue!10]
+\tikzstyle{gnode} = [circle, fill=blue!10, draw=black]
 
 %style for discriminator node
-\tikzstyle{dnode} = [circle, fill=red!10]
+\tikzstyle{dnode} = [circle, fill=red!10, draw=black]
 
 %style for input box
-\tikzstyle{inbox} = [rectangle, fill=green!10]
+\tikzstyle{inbox} = [rectangle, fill=green!10, draw=black]
 
 %place nodes
 \node[gnode](G0) at (0,0) {$G_{0}$};
 \node[dnode](D0) at (0,1.2) {$D_{0}$};
 \node[inbox](noise) at (-1.2,0) {Noise};
-\node[inbox](Dataset) at (-1.2,1.2) {Dataset};
+\node[inbox](dataset) at (-1.2,1.2) {Dataset};
 \node[gnode](G1) at (1,0) {$G_{1}$};
 \node[dnode](D1) at (1, 1.2) {$D_{1}$};
 \node(upperDots) at (2.2,1.2){\ldots};
@@ -65,6 +65,8 @@ generative adversarial networks, gan, neural networks, deep learning
 \node[dnode](DN) at (3.2, 1.2) {$D_{n}$};
 
 %connect nodes with lines
+\draw[->] (noise)-- (G0);
+\draw[->] (dataset)-- (D0);
 \draw[<->] (G0) -- (D0);
 \draw[->] (G0) -- (G1);
 \draw[->] (D0) -- (G1);
@@ -75,8 +77,150 @@ generative adversarial networks, gan, neural networks, deep learning
 \draw[->] (upperDots) -- (GN);
 \draw[<->] (DN) -- (GN);
 \end{tikzpicture}
+\caption{Chained GANs architecture}
+\label{figCGANHigh}
 \end{figure}
 
+% diagram of base GAN
+\begin{figure}[htpb]
+\begin{tikzpicture}
+%style for generator node
+\tikzstyle{gnode} = [circle, fill=blue!10, draw=black]
+
+%style for discriminator node
+\tikzstyle{dnode} = [circle, fill=red!10, draw=black]
+
+%style for input box
+\tikzstyle{inbox} = [rectangle, fill=green!10, draw=black]
+
+%style for cost 
+\tikzstyle{cost} = [rectangle, fill=yellow!10, draw=black]
+
+%style for operator 
+\tikzstyle{operator} = [circle, fill=cyan!10, draw=black]
+
+%place nodes
+\node[inbox] (noise) at (0,0) {Noise Vector};
+
+\node[inbox] (dataset) at (0,2) {Dataset};
+
+\node[gnode](generator) at (3,0) {$G_{0}$};
+
+\node(gIToNext) at (3,-0.8) {to $M_{1}$}; 
+
+\node[inbox] (gOptimizer) at (6.25, 0) {Optimizer};
+
+\node[dnode](discriminator) at (3,2) {$D_{0}$};
+
+\node[inbox] (dOptimizer) at (3,4) {Optimizer};
+
+\node[cost] (dCostDataset) at (6.25,3){D Cost Dataset};
+
+\node[cost] (dCostGenerated) at (6.25,2){D Cost Generated};
+\node (dItoNext) at (7.0, 1.5){to $M_{1}$};
+
+\node[cost] (gCostGenerated) at (6.25,1){G Cost Generated};
+
+\node[operator] (adder) at (5.5,4){+};
+
+\draw[->] (noise) -- (generator);
+
+\draw[->] (generator) -- (discriminator) ;
+\draw[->] (generator) -- (gIToNext) -- (4,-0.8);
+
+\draw[->] (gOptimizer) -- (generator);
+
+\draw[->] (gCostGenerated) -- (gOptimizer);
+
+\draw[->] (dataset) -- (discriminator);
+
+\draw[->] (discriminator) -- (4.5, 2) |- (dCostDataset);
+\draw[->] (discriminator) -- (4.5,2) |- (gCostGenerated);
+\draw[->] (dCostGenerated) (6.0,1.6) |- (6.0,1.5) |- (dItoNext);
+\draw[->] (dItoNext) -- (8,1.5);
+
+\draw[->] (discriminator) -- (dCostGenerated);
+
+\draw[->] (dCostGenerated) -- (8,2) |- (adder);
+\draw[->] (dCostDataset) -- (8,3) |- (adder);
+
+\draw[->] (adder) -- (dOptimizer);
+
+\draw[->] (dOptimizer) -- (discriminator);
+\end{tikzpicture}
+\caption{Chained GANs base Model, $M_{0}$}
+\label{figCGANBase}
+\end{figure}
+
+% diagram of successor GAN
+\begin{figure}[htpb]
+\begin{tikzpicture}
+%style for generator node
+\tikzstyle{gnode} = [circle, fill=blue!10, draw=black]
+
+%style for discriminator node
+\tikzstyle{dnode} = [circle, fill=red!10, draw=black]
+
+%style for input box
+\tikzstyle{inbox} = [rectangle, fill=green!10, draw=black]
+
+%style for cost 
+\tikzstyle{cost} = [rectangle, fill=yellow!10, draw=black]
+
+%style for operator 
+\tikzstyle{operator} = [circle, fill=cyan!10, draw=black]
+
+%place nodes
+\node[inbox] (gPrevOut) at (0,0) {$\mathcal{G}_{i-1}$ Output};
+
+\node[inbox] (dataset) at (0,2) {Dataset};
+
+\node[gnode](generator) at (3,0) {$G_{i}$};
+
+\node(gIToNext) at (3,-0.8) {to $M_{i+1}$}; 
+\node[inbox] (gOptimizer) at (6.25, 0) {Optimizer};
+
+\node[dnode](discriminator) at (3,2) {$D_{i}$};
+
+\node[inbox] (dOptimizer) at (3,4) {Optimizer};
+
+\node[cost] (dCostDataset) at (6.25,3){D Cost Dataset};
+
+\node[cost] (dCostGenerated) at (6.25,2){D Cost Generated};
+
+\node (dItoNext) at (7.0, 1.5){to $M_{i+1}$};
+
+\node[cost] (gCostGenerated) at (6.25,1){G Cost Generated};
+
+\node[operator] (adder) at (5.5,4){+};
+
+\draw[->] (noise) -- (generator);
+
+\draw[->] (generator) -- (discriminator) ;
+\draw[->] (generator) -- (gIToNext) -- (4,-0.8);
+
+\draw[->] (gOptimizer) -- (generator);
+
+\draw[->] (gCostGenerated) -- (gOptimizer);
+
+\draw[->] (dataset) -- (discriminator);
+
+\draw[->] (discriminator) -- (4.5, 2) |- (dCostDataset);
+\draw[->] (discriminator) -- (4.5,2) |- (gCostGenerated);
+\draw[->] (dCostGenerated) (6.0,1.6) |- (6.0,1.5) |- (dItoNext);
+\draw[->] (dItoNext) -- (8,1.5);
+\draw[->] (discriminator) -- (dCostGenerated);
+
+\draw[->] (dCostGenerated) -- (8,2) |- (adder);
+\draw[->] (dCostDataset) -- (8,3) |- (adder);
+
+\draw[->] (adder) -- (dOptimizer);
+
+\draw[->] (dOptimizer) -- (discriminator);
+\end{tikzpicture}
+\caption{Chained GANs successor model $M_{i}$}
+\label{figCGANBase}
+\end{figure}
 \begin{figure}[htpb]
 \begin{tikzpicture}
 \begin{axis}
@@ -89,12 +233,41 @@ generative adversarial networks, gan, neural networks, deep learning
 \caption{Discriminator Accuracy}
 \label{discAcc}
 \end{figure}
-\section{Experiments}
 
-The preferred spelling of the word ``acknowledgment'' in America is without 
-an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
-G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
-acknowledgments in the unnumbered footnote on the first page.
+% diagram for discriminator nodes
+\begin{figure}[htpb]
+\begin{tikzpicture}
+\tikzstyle{convlayer2} = [rectangle, rounded corners, fill=blue!10,draw=black]
+\tikzstyle{convlayer1} = [rectangle, fill=blue!10, draw=black]
+\tikzstyle{zeropadding} = [rectangle, fill=green!10, draw=black]
+\tikzstyle{outputshape} = [rectangle, fill=red!10, draw=black]
+\tikzstyle{dropout} = [rectangle, fill=black!5, draw=black]
+\tikzstyle{flatten} = [rectangle, fill=brown!5, draw=black]
+\tikzstyle{optimizer} = [rectangle, fill=purple!5, draw=black]
+\tikzstyle{loss} = [rectanble, fill=cyan!10, draw=black]
+\tikzstyle{dense} = [rectangle, fill=orange!10, draw=black]
+\tikzstyle{image} = [rectangle, fill=magenta!10, draw=black]
+
+\node(inputImage) [image] at (0,0) {Input Image 28x28};
+\node(convLayer1) [convlayer1] at (0,1) {32 $\times$ Conv2D, 3$\times$3, Stride=2};
+\node(output1) [outputshape] at (0,2) {output shape $14 \times 14 \times 32$};
+\node(convLayer2) [convlayer1] at (0, 3) {64 $\times$ Conv2D, 3$\times$3, Stride=2};
+\node(output2) [outputshape] at (0,4) {output shape $7 \times 7 \times 64$};
+\node(zeropad) [zeropadding] at (0,5) {Zero Padding};
+\node(output3) [outputshape] at (0,6) {output shape $8 \times 8 \times 64$};
+\node(convLayer3) [convlayer1] at (0, 7) {128 $\times$ Conv2D, 3$\times$3, Stride=2};
+\node(output3) [outputshape] at (0,8) {output shape $4 \times 4 \times 128$};
+\node(convLayer4) [convlayer2] at (0, 9) {256 $\times$ Conv2D, 3$\times$3, Stride=1};
+\node(output4) [outputshape] at (0,10) {output shape $4 \times 4 \times 256$};
+
+\node[flatten] at (0,16) {Flatten};
+\node[dense] at (0,17) {Dense};
+\node[convlayer2] at (0,18) {Sigmoid};
+\end{tikzpicture}
+\caption{Discriminator Architecture}
+\label{discAcc}
+\end{figure}
+
 
 \section{Experiments}
 \section{Conclusions}
